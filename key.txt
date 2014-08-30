@@ -1,0 +1,10 @@
+0: nothing
+1: Harvesting
+2: Processing & Export
+3: Arrive in US
+4: Roasting Begins
+5: Roasting & Harvesting*
+
+
+    var colors = ['transparent', 'purple', 'red', 'teal', 'yellow', 'pink'];
+["Harvesting", "Processing & Export", "Arrive in US", "Roasting Begins", "Other"]
