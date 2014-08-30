@@ -2,7 +2,7 @@
 <meta charset="utf-8" />
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' />
-<link href="/style.css" rel="stylesheet" type="text/css" />
+<link href="style.css" rel="stylesheet" type="text/css" />
 
 <div id="legend" style="display: none;">
   <strong>Counter Culture Coffee Seasonality</strong>
@@ -45,11 +45,11 @@
   map.legendControl.addLegend(document.getElementById('legend').innerHTML);
 
   var worldLayer = L.mapbox.featureLayer()
-    .loadURL('/countries-hires.json')
+    .loadURL('countries-hires.json')
     .on('ready', loadData);
 
   function loadData() {
-    $.getJSON('/data.json')
+    $.getJSON('data.json')
       .done(function(data) {
         joinData(data, worldLayer);
       });
