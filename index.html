@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8" />
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' />
 <link href="style.css" rel="stylesheet" type="text/css" />
 
@@ -19,7 +20,7 @@
 <div id="map"></div>
 <div class="range-container">
   <div id="rangeBox" class="leaflet-container">
-    <input id='range' class='range' type='range' min='0' max='11.0' step='1' value='0' />
+    <input id='range' class='range' type='range' min='0' max='11.0' step='1' value='0' autofocus=true />
     <ul class="ticks">
       <li>January</li>
       <li>February</li>
@@ -37,74 +38,6 @@
   </div>
 </div>
 
-
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script>
-  L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlbmluZ3RvbiIsImEiOiJCRlpWYl84In0.SYWh5tptxy1Axk4eWj9YRg';
-  var map = L.mapbox.map('map', 'examples.map-i86nkdio');
-  map.legendControl.addLegend(document.getElementById('legend').innerHTML);
-
-  var worldLayer = L.mapbox.featureLayer()
-    .loadURL('countries-hires.json')
-    .on('ready', loadData);
-
-  function loadData() {
-    $.getJSON('data.json')
-      .done(function(data) {
-        joinData(data, worldLayer);
-      });
-  }
-
-  function joinData(coffeeData, worldLayer) {
-    var coffeeCountries = {};
-    coffeeData.objects.countries.geometries.forEach(function(obj) {
-      if (obj.properties['Jan'] !== undefined) {
-        coffeeCountries[obj.properties.name] = obj.properties;
-      }
-    });
-
-    var worldJSON = worldLayer.toGeoJSON();
-    var coffeeCountryFeatures = [];
-    for (var idx = 0; idx < worldJSON.features.length; idx++) {
-      var data = coffeeCountries[worldJSON.features[idx].properties.GEOUNIT];
-      if (data) {
-        //delete coffeeCountries[worldJSON.features[idx].properties.GEOUNIT];
-        var feature = worldJSON.features[idx];
-        feature.properties = data;
-        coffeeCountryFeatures.push(feature);
-      }
-    }
-
-    var coffeeLayer = L.mapbox.featureLayer();
-    coffeeLayer.setGeoJSON(coffeeCountryFeatures);
-
-    coffeeLayer.eachLayer(function(layer) {
-      layer.setStyle({
-        fillColor: 'transparent',
-        fillOpacity: 0.5,
-        weight: 0.5
-      });
-      var popup = "<strong>" + layer.feature.properties.name + "</strong>";
-      if (layer.feature.properties.coffees.length) popup += "<br>" + layer.feature.properties.coffees;
-      layer.bindPopup(popup);
-    });
-
-    coffeeLayer.addTo(map);
-
-    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var colors = ['transparent', 'purple', 'red', 'teal', 'yellow', 'pink'];
-
-    var range = document.getElementById('range');
-    function colorIt(){
-      var month = monthNames[range.value | 0];
-      coffeeLayer.eachLayer(function(layer){
-        layer.setStyle({
-          fillColor: colors[layer.feature.properties[month]]
-        });
-      });
-    }
-    range['oninput' in range ? 'oninput' : 'onchange'] = colorIt;
-    colorIt();
-  }
-</script>
+<script src="main.js"></script>
 

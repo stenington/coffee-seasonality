@@ -2,8 +2,8 @@ body { margin:0; padding:0; }
 body, html { width: 100%; }
 
 path {
-  -webkit-transition: fill-opacity 200ms, fill 200ms;
-  transition: fill-opacity 200ms, fill 200ms;
+  -webkit-transition: fill-opacity 400ms, fill 400ms;
+  transition: fill-opacity 400ms, fill 400ms;
 }
 
 #map { position:absolute; top:0; bottom:0; width:100%; }
