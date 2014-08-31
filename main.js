@@ -4,12 +4,19 @@ map.legendControl.addLegend(document.getElementById('legend').innerHTML);
 
 var features = omnivore.topojson('data.json')
   .on('ready', function() {
-    features.setStyle({
-      fillColor: 'transparent',
-      fillOpacity: 0.5,
-      weight: 0.5
+    features.eachLayer(function(layer) {
+      // Thin out the country features with no coffee seasonality data.
+      // This could be done on data.json for a smaller filesize.
+      if (layer.feature.properties['Jan'] === undefined) {
+        features.removeLayer(layer);
+      }
+      else {
+        layer.setStyle({
+          fillOpacity: 0.5,
+          weight: 0.5
+        });
+      }
     });
-
     features.addTo(map);
 
     var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
